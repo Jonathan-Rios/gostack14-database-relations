@@ -4,8 +4,8 @@ import AppError from '@shared/errors/AppError';
 
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ICustomersRepository from '@modules/customers/repositories/ICustomersRepository';
+import IOrdersRepository from '@modules/orders/repositories/IOrdersRepository';
 import Order from '../infra/typeorm/entities/Order';
-import IOrdersRepository from '../repositories/IOrdersRepository';
 
 interface IProduct {
   id: string;
@@ -39,7 +39,7 @@ class CreateOrderService {
       products,
     );
 
-    if (!existentProducts.length) {
+    if (existentProducts && !existentProducts.length) {
       throw new AppError('Could not find any products with the given ids.');
     }
 
@@ -78,9 +78,9 @@ class CreateOrderService {
       products: serializedProducts,
     });
 
-    const { order_products } = order;
+    const { orders_products } = order;
 
-    const orderedProductsQuantity = order_products.map(product => ({
+    const orderedProductsQuantity = orders_products.map(product => ({
       id: product.product_id,
       quantity:
         existentProducts.filter(p => p.id === product.product_id)[0].quantity -

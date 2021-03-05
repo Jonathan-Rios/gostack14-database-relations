@@ -7,7 +7,7 @@ import {
 
 export default class AddCustomerIdToOrders1612863213109
   implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+  public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       'orders',
       new TableColumn({
@@ -29,7 +29,7 @@ export default class AddCustomerIdToOrders1612863213109
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {
+  public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('orders', 'OrdersCustomer');
 
     await queryRunner.dropColumn('orders', 'customer_id');
